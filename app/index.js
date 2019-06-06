@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "./index.css";
 
 // Component
 /// state
@@ -11,3 +12,10 @@ class App extends React.Component {
     return <div>Hello World</div>;
   }
 }
+
+ReactDOM.render(
+  // react element
+  <App />,
+  document.getElementById("app")
+  // where to render the element too
+);
