@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 //
 //
 //
@@ -23,7 +24,11 @@ function LanguagesNav({ selected, onUpdateLanguage }) {
 }
 //
 //
-//
+// Validating and checking prop-types
+LanguagesNav.propTypes = {
+  selected: PropTypes.string.isRequired,
+  onUpdateLanguage: PropTypes.func.isRequired
+};
 //
 //
 export default class Popular extends React.Component {
