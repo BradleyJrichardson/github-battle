@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { fetchPopularRepos } from "../utils/api";
 //
 //
 //
@@ -36,19 +37,42 @@ export default class Popular extends React.Component {
     super(props);
 
     this.state = {
-      selectedLanguage: "All"
+      selectedLanguage: "All",
+      repos: null,
+      error: null
     };
     this.updateSelectedLanguage = this.updateSelectedLanguage.bind(this);
+    this.isLoading = this.isLoading.bind(this);
   }
 
   updateSelectedLanguage(selectedLanguage) {
     this.setState({
-      selectedLanguage
+      selectedLanguage,
+      // this enables us to do a loading screen
+      error: null,
+      repos: null
     });
-  }
 
+    fetchPopularRepos(selectedLanguage)
+      .then(repos =>
+        this.setState({
+          repos,
+          error: null
+        })
+      )
+      .catch(() => {
+        console.warn("Error fetching repos", error);
+
+        this.setState({
+          error: "there was an error fetching the repos"
+        });
+      });
+  }
+  isLoading() {
+    return this.state.repos === null && this.state.errors;
+  }
   render() {
-    const { selectedLanguage } = this.state;
+    const { selectedLanguage, repos, error } = this.state;
 
     return (
       <React.Fragment>
