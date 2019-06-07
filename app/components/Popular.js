@@ -48,7 +48,7 @@ export default class Popular extends React.Component {
   updateSelectedLanguage(selectedLanguage) {
     this.setState({
       selectedLanguage,
-      // this enables us to do a loading screen
+      // this enables us to do a loading screen error = null
       error: null,
       repos: null
     });
@@ -80,6 +80,11 @@ export default class Popular extends React.Component {
           selected={selectedLanguage}
           onUpdateLanguage={this.updateSelectedLanguage}
         />
+        {this.isLoading() && <p>LOADING</p>}
+
+        {error && <p>{error}</p>}
+
+        {repos && <pre>{JSON.stringify(repos, null, 2)}</pre>}
       </React.Fragment>
     );
   }
