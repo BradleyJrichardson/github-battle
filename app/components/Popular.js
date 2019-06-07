@@ -38,38 +38,48 @@ export default class Popular extends React.Component {
 
     this.state = {
       selectedLanguage: "All",
-      repos: null,
+      repos: {}, //caching the repos once we fetch them
       error: null
     };
     this.updateSelectedLanguage = this.updateSelectedLanguage.bind(this);
     this.isLoading = this.isLoading.bind(this);
   }
 
+  // component did mount lifecycle method
+  // in this we want to call updateSelectedLanguages and pass the current selectedLanaguage with will be all as the is the state that is intially constructed with
+  componentDidMount() {
+    this.updateSelectedLanguage(this.state.selectedLanguage);
+  }
+
   updateSelectedLanguage(selectedLanguage) {
     this.setState({
       selectedLanguage,
       // this enables us to do a loading screen error = null
-      error: null,
-      repos: null
+      error: null
     });
 
-    fetchPopularRepos(selectedLanguage)
-      .then(repos =>
-        this.setState({
-          repos,
-          error: null
+    if (!this.state.repos[selectedLanguage]) {
+      fetchPopularRepos(selectedLanguage)
+        .then(data => {
+          this.setState(({ repos }) => ({
+            repos: {
+              ...repos,
+              [selectedLanguage]: data
+            }
+          }));
         })
-      )
-      .catch(() => {
-        console.warn("Error fetching repos", error);
-
-        this.setState({
-          error: "there was an error fetching the repos"
+        .catch(() => {
+          console.warn("Error fetching repos", error);
+          this.setState({
+            error: "there was an error fetching the repos"
+          });
         });
-      });
+    }
   }
+
   isLoading() {
-    return this.state.repos === null && this.state.errors;
+    const { selectedLanguage, repos, error } = this.state;
+    return !repos[selectedLanguage] && error === null;
   }
   render() {
     const { selectedLanguage, repos, error } = this.state;
@@ -80,7 +90,8 @@ export default class Popular extends React.Component {
           selected={selectedLanguage}
           onUpdateLanguage={this.updateSelectedLanguage}
         />
-        {this.isLoading() && <p>LOADING</p>}
+
+        {this.isLoading() && <p>Fetching Repositories</p>}
 
         {error && <p>{error}</p>}
 
