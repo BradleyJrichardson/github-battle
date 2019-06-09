@@ -150,7 +150,19 @@ export default class Battle extends React.Component {
     const { playerOne, playerTwo, battle } = this.state;
 
     if (battle === true) {
-      return <Results playerOne={playerOne} playerTwo={playerTwo} />;
+      return (
+        <Results
+          playerOne={playerOne}
+          playerTwo={playerTwo}
+          onReset={() =>
+            this.setState({
+              battle: false,
+              playerOne: null,
+              playerTwo: null
+            })
+          }
+        />
+      );
     }
 
     // what this is doing when both of the form field are not null battle will be true
