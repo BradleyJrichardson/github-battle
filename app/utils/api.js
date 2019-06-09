@@ -20,7 +20,7 @@ function getProfile(username) {
       if (profile.message) {
         throw new Error(getErrorMsg(profile.message, username));
       }
-
+      console.log(profile);
       return profile;
     });
 }
@@ -34,7 +34,7 @@ function getRepos(username) {
       if (repos.message) {
         throw new Error(getErrorMsg(repos.message, username));
       }
-
+      console.log(repos);
       return repos;
     });
 }

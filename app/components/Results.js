@@ -98,6 +98,10 @@ export default class Results extends React.Component {
               <FaUserFriends color="rgb(64, 183, 95)" size={22} />
               {winner.profile.following.toLocaleString()} following
             </li>
+            <li>
+              <FaCode color="rgb(0, 0, 20)" size={22} />
+              {winner.profile.public_repos.toLocaleString()} repos
+            </li>
           </ul>
         </div>
         <div className="card bg-light">
@@ -139,6 +143,10 @@ export default class Results extends React.Component {
             <li>
               <FaUserFriends color="rgb(64, 183, 95)" size={22} />
               {loser.profile.following.toLocaleString()} following
+            </li>
+            <li>
+              <FaCode color="rgb(0, 0, 20)" size={22} />
+              {loser.profile.public_repos.toLocaleString()} repos
             </li>
           </ul>
         </div>
