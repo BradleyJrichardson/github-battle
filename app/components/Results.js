@@ -9,6 +9,7 @@ import {
   FaCode,
   FaUser
 } from "react-icons/fa";
+import Card from "./Card";
 
 export default class Results extends React.Component {
   constructor(props) {
@@ -56,23 +57,13 @@ export default class Results extends React.Component {
 
     return (
       <div className="grid space-around container-sm">
-        <div className="card bg-light">
-          <h4 className="header-lg center-text">
-            {winner.score === loser.score ? "Tie" : "Winner"}
-          </h4>
-          <img
-            className="avatar"
-            src={winner.profile.avatar_url}
-            alt={`Avatar for ${winner.profile.login}`}
-          />
-          <h4 className="center-text">
-            Score: {winner.score.toLocaleString()}
-          </h4>
-          <h2 className="center-text">
-            <a className="link" href={winner.profile.html_url}>
-              {winner.profile.login}
-            </a>
-          </h2>
+        <Card
+          header={winner.score === loser.score ? "Tie" : "Winner"}
+          subheader={`Score: ${winner.score.toLocaleString()}`}
+          avatar={winner.profile.avatar_url}
+          href={winner.profile.html_url}
+          name={winner.profile.login}
+        >
           <ul className="card-list">
             <li>
               <FaUser color="rgb(239, 115, 115)" size={22} />
@@ -103,22 +94,15 @@ export default class Results extends React.Component {
               {winner.profile.public_repos.toLocaleString()} repos
             </li>
           </ul>
-        </div>
-        <div className="card bg-light">
-          <h4 className="header-lg center-text">
-            {winner.score === loser.score ? "Tie" : "Loser"}
-          </h4>
-          <img
-            className="avatar"
-            src={loser.profile.avatar_url}
-            alt={`Avatar for ${loser.profile.login}`}
-          />
-          <h4 className="center-text">Score: {loser.score.toLocaleString()}</h4>
-          <h2 className="center-text">
-            <a className="link" href={loser.profile.html_url}>
-              {loser.profile.login}
-            </a>
-          </h2>
+        </Card>
+
+        <Card
+          header={loser.score === loser.score ? "Tie" : "loser"}
+          subheader={`Score: ${loser.score.toLocaleString()}`}
+          avatar={loser.profile.avatar_url}
+          href={loser.profile.html_url}
+          name={loser.profile.login}
+        >
           <ul className="card-list">
             <li>
               <FaUser color="rgb(239, 115, 115)" size={22} />
@@ -149,7 +133,7 @@ export default class Results extends React.Component {
               {loser.profile.public_repos.toLocaleString()} repos
             </li>
           </ul>
-        </div>
+        </Card>
       </div>
     );
   }
