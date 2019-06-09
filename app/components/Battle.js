@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Results from "./Results";
+import Tooltip from "./Tooltip";
 
 function Instructions() {
   return (
