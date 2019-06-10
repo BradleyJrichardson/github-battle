@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import Results from "./Results";
 import Tooltip from "./Tooltip";
 import { ThemeConsumer } from "../contexts/theme";
+import { Link } from "react-router-dom";
 
 function Instructions() {
   return (
@@ -143,7 +144,6 @@ function PlayerPreview({ username, onReset, label }) {
 // executes handlereset which then sets the state
 PlayerPreview.propTypes = {
   username: PropTypes.string.isRequired,
-  onReset: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired
 };
 
@@ -153,9 +153,7 @@ export default class Battle extends React.Component {
 
     this.state = {
       playerOne: null,
-      playerTwo: null,
-      battle: false
-      // this will enable us to render the battle button when both of the form fields are not null
+      playerTwo: null
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -173,24 +171,23 @@ export default class Battle extends React.Component {
     });
   }
   render() {
-    const { playerOne, playerTwo, battle } = this.state;
+    const { playerOne, playerTwo } = this.state;
 
-    if (battle === true) {
-      return (
-        <Results
-          playerOne={playerOne}
-          playerTwo={playerTwo}
-          onReset={() =>
-            this.setState({
-              battle: false,
-              playerOne: null,
-              playerTwo: null
-            })
-          }
-        />
-      );
-    }
-
+    // if (battle === true) {
+    //   return (
+    //     <Results
+    //       playerOne={playerOne}
+    //       playerTwo={playerTwo}
+    //       onReset={() =>
+    //         this.setState({
+    //           battle: false,
+    //           playerOne: null,
+    //           playerTwo: null
+    //         })
+    //       }
+    //     />
+    //   );
+    // }
     // what this is doing when both of the form field are not null battle will be true
     // this then passes the props to the results.js component and we will then use the names of the players to fetch data gform the github api
 
@@ -229,16 +226,15 @@ export default class Battle extends React.Component {
           </div>
 
           {playerOne && playerTwo && (
-            <button
+            <Link
               className="btn dark-btn btn-space"
-              onClick={() =>
-                this.setState({
-                  battle: true
-                })
-              }
+              to={{
+                pathname: "/battle/results",
+                search: `?playerOne=${playerOne}&playerTwo=${playerTwo}`
+              }}
             >
               Battle
-            </button>
+            </Link>
           )}
         </div>
       </React.Fragment>
