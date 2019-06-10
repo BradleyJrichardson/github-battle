@@ -1,6 +1,5 @@
 import React from "react";
 import { battle } from "../utils/api";
-// this is just import the battle function from utils
 import {
   FaCompass,
   FaBriefcase,
@@ -47,10 +46,6 @@ function ProfileList({ profile }) {
         <FaUserFriends color="rgb(64, 183, 95)" size={22} />
         {profile.following.toLocaleString()} following
       </li>
-      <li>
-        <FaCode color="rgb(0, 0, 20)" size={22} />
-        {profile.public_repos.toLocaleString()} repos
-      </li>
     </ul>
   );
 }
@@ -60,21 +55,26 @@ ProfileList.propTypes = {
 };
 
 export default class Results extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    winner: null,
+    loser: null,
+    error: null,
+    loading: true
+  };
 
-    this.state = {
-      winner: null,
-      loser: null,
-      error: null,
-      loading: true
-    };
-  }
+  // constructor(props) {
+  //   super(props);
 
+  //   this.state = {
+  //     winner: null,
+  //     loser: null,
+  //     error: null,
+  //     loading: true
+  //   };
+  // }
   componentDidMount() {
-    debugger;
     const { playerOne, playerTwo } = queryString.parse(
-      this.props.location.seach
+      this.props.location.search
     );
 
     battle([playerOne, playerTwo])
@@ -95,11 +95,9 @@ export default class Results extends React.Component {
   }
   render() {
     const { winner, loser, error, loading } = this.state;
-    // destructuring the state for use in the render method
-    // doing this jsut makes it easier to access
 
     if (loading === true) {
-      return <Loading text="Battling" speed={100} />;
+      return <Loading text="Battling" />;
     }
 
     if (error) {
@@ -118,18 +116,17 @@ export default class Results extends React.Component {
           >
             <ProfileList profile={winner.profile} />
           </Card>
-
           <Card
-            header={loser.score === loser.score ? "Tie" : "loser"}
+            header={winner.score === loser.score ? "Tie" : "Loser"}
             subheader={`Score: ${loser.score.toLocaleString()}`}
             avatar={loser.profile.avatar_url}
-            href={loser.profile.html_url}
             name={loser.profile.login}
+            href={loser.profile.html_url}
           >
             <ProfileList profile={loser.profile} />
           </Card>
         </div>
-        <Link className="btn dark-btn btn-space" to="/battle">
+        <Link to="/battle" className="btn dark-btn btn-space">
           Reset
         </Link>
       </React.Fragment>

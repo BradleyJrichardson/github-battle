@@ -7,7 +7,6 @@ import {
 } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Results from "./Results";
-import Tooltip from "./Tooltip";
 import { ThemeConsumer } from "../contexts/theme";
 import { Link } from "react-router-dom";
 
@@ -49,31 +48,30 @@ function Instructions() {
   );
 }
 
-// creating another component to contain the player input state and function.
-// it needs to be a class component as it has a state
 class PlayerInput extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    username: ""
+  };
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      username: ""
-    };
+  //   this.state = {
+  //     username: ""
+  //   };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleSubmit(event) {
+  //   this.handleSubmit = this.handleSubmit.bind(this);
+  //   this.handleChange = this.handleChange.bind(this);
+  // }
+  handleSubmit = event => {
     event.preventDefault();
 
     this.props.onSubmit(this.state.username);
-  }
-
-  handleChange(event) {
+  };
+  handleChange = event => {
     this.setState({
       username: event.target.value
     });
-  }
+  };
   render() {
     return (
       <ThemeConsumer>
@@ -106,8 +104,6 @@ class PlayerInput extends React.Component {
     );
   }
 }
-// whenever you have a controlled component the value in the input field is just going to be whatever is on the local state so in order to update the text of the iput field we need to update the lcal state
-// this is the handle change
 
 PlayerInput.propTypes = {
   onSubmit: PropTypes.func.isRequired,
@@ -140,77 +136,62 @@ function PlayerPreview({ username, onReset, label }) {
     </ThemeConsumer>
   );
 }
-// onClick we are executing the function onReset, which in turn
-// executes handlereset which then sets the state
+
 PlayerPreview.propTypes = {
   username: PropTypes.string.isRequired,
+  onReset: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired
 };
 
 export default class Battle extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    playerOne: null,
+    playerTwo: null
+  };
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      playerOne: null,
-      playerTwo: null
-    };
+  //   this.state = {
+  //     playerOne: null,
+  //     playerTwo: null
+  //   };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-    // everytime we make a method on the class we need to bind it if it changes a state
-  }
-  handleSubmit(id, player) {
+  //   this.handleSubmit = this.handleSubmit.bind(this);
+  //   this.handleReset = this.handleReset.bind(this);
+  // }
+  handleSubmit = (id, player) => {
     this.setState({
       [id]: player
     });
-  }
-  handleReset(id) {
+  };
+  handleReset = id => {
     this.setState({
       [id]: null
     });
-  }
+  };
   render() {
     const { playerOne, playerTwo } = this.state;
-
-    // if (battle === true) {
-    //   return (
-    //     <Results
-    //       playerOne={playerOne}
-    //       playerTwo={playerTwo}
-    //       onReset={() =>
-    //         this.setState({
-    //           battle: false,
-    //           playerOne: null,
-    //           playerTwo: null
-    //         })
-    //       }
-    //     />
-    //   );
-    // }
-    // what this is doing when both of the form field are not null battle will be true
-    // this then passes the props to the results.js component and we will then use the names of the players to fetch data gform the github api
 
     return (
       <React.Fragment>
         <Instructions />
 
         <div className="players-container">
-          <h1 className="center-text header-lig">Players</h1>
+          <h1 className="center-text header-lg">Players</h1>
           <div className="row space-around">
             {playerOne === null ? (
               <PlayerInput
                 label="Player One"
-                // on submit is coming in as a prop to player input
                 onSubmit={player => this.handleSubmit("playerOne", player)}
               />
             ) : (
               <PlayerPreview
                 username={playerOne}
-                label="player one"
+                label="Player One"
                 onReset={() => this.handleReset("playerOne")}
               />
             )}
+
             {playerTwo === null ? (
               <PlayerInput
                 label="Player Two"
@@ -219,7 +200,7 @@ export default class Battle extends React.Component {
             ) : (
               <PlayerPreview
                 username={playerTwo}
-                label="player two"
+                label="Player Two"
                 onReset={() => this.handleReset("playerTwo")}
               />
             )}

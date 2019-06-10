@@ -37,7 +37,6 @@ function LanguagesNav({ selected, onUpdateLanguage }) {
 //
 // Validating and checking prop-types
 LanguagesNav.propTypes = {
-  selected: PropTypes.string.isRequired,
   onUpdateLanguage: PropTypes.func.isRequired
 };
 //
@@ -98,17 +97,22 @@ ReposGrid.propTypes = {
 //
 //
 export default class Popular extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    selectedLanaguage: "All",
+    repos: {},
+    error: null
+  };
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      selectedLanguage: "All",
-      repos: {}, //caching the repos once we fetch them
-      error: null
-    };
-    this.updateSelectedLanguage = this.updateSelectedLanguage.bind(this);
-    this.isLoading = this.isLoading.bind(this);
-  }
+  //   this.state = {
+  //     selectedLanguage: "All",
+  //     repos: {}, //caching the repos once we fetch them
+  //     error: null
+  //   };
+  //   this.updateSelectedLanguage = this.updateSelectedLanguage.bind(this);
+  //   this.isLoading = this.isLoading.bind(this);
+  // }
 
   // component did mount lifecycle method
   // in this we want to call updateSelectedLanguages and pass the current selectedLanaguage with will be all as the is the state that is intially constructed with
@@ -116,7 +120,7 @@ export default class Popular extends React.Component {
     this.updateSelectedLanguage(this.state.selectedLanguage);
   }
 
-  updateSelectedLanguage(selectedLanguage) {
+  updateSelectedLanguage = selectedLanguage => {
     this.setState({
       selectedLanguage,
       // this enables us to do a loading screen error = null
@@ -140,12 +144,12 @@ export default class Popular extends React.Component {
           });
         });
     }
-  }
+  };
 
-  isLoading() {
+  isLoading = () => {
     const { selectedLanguage, repos, error } = this.state;
     return !repos[selectedLanguage] && error === null;
-  }
+  };
   render() {
     const { selectedLanguage, repos, error } = this.state;
 
