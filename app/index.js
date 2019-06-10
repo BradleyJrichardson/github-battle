@@ -5,6 +5,7 @@ import Popular from "./components/Popular";
 import Battle from "./components/Battle";
 import { ThemeProvider } from "./contexts/theme";
 import Nav from "./components/Nav";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
@@ -22,14 +23,17 @@ class App extends React.Component {
   // in order for us to consume this method from inside of the component tree we are attaching it to the state value of themeprovider context thingy
   render() {
     return (
-      <ThemeProvider value={this.state}>
-        <div className={this.state.theme}>
-          <div className="container">
-            <Nav />
-            <Popular />
+      <Router>
+        <ThemeProvider value={this.state}>
+          <div className={this.state.theme}>
+            <div className="container">
+              <Nav />
+              <Route exact path="/" component={Popular} />
+              <Route path="/battle" component={Battle} />
+            </div>
           </div>
-        </div>
-      </ThemeProvider>
+        </ThemeProvider>
+      </Router>
     );
   }
 }
