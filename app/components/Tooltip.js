@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 //importing the higher order function
-import withHover from "./withHover";
+// import withHover from "./withHover";
+// alternative way
+import Hover from "./Hover";
 
 const styles = {
   container: {
@@ -26,22 +28,25 @@ const styles = {
   }
 };
 
-function Tooltip({ text, children, hovering }) {
+export default function Tooltip({ text, children }) {
   return (
-    <div style={styles.container}>
-      {hovering === true && <div style={styles.tooltip}>{text}</div>}
-      {children}
-    </div>
+    <Hover>
+      {hovering => (
+        <div style={styles.container}>
+          {hovering === true && <div style={styles.tooltip}>{text}</div>}
+          {children}
+        </div>
+      )}
+    </Hover>
   );
 }
 
 Tooltip.propTypes = {
-  text: PropTypes.string.isRequired,
-  hovering: PropTypes.bool.isRequired
+  text: PropTypes.string.isRequired
 };
 
 // using and exporting the higher order function
-export default withHover(Tooltip);
+// export default withHover(Tooltip);
 // so we are actually exporting the invokation fo withHover
 
 // a higher order component is just a component that takes in a component as it's argument
