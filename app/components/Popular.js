@@ -102,20 +102,6 @@ export default class Popular extends React.Component {
     repos: {},
     error: null
   };
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     selectedLanguage: "All",
-  //     repos: {}, //caching the repos once we fetch them
-  //     error: null
-  //   };
-  //   this.updateSelectedLanguage = this.updateSelectedLanguage.bind(this);
-  //   this.isLoading = this.isLoading.bind(this);
-  // }
-
-  // component did mount lifecycle method
-  // in this we want to call updateSelectedLanguages and pass the current selectedLanaguage with will be all as the is the state that is intially constructed with
   componentDidMount() {
     this.updateSelectedLanguage(this.state.selectedLanguage);
   }
